@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โกวิท อัคนิทัต | Project & Games Hub</title>
+    
+    <!-- Meta Tags -->
+    <meta name="title" content="โกวิท อัคนิทัต | Project & Games Hub">
+    <meta name="description" content="ศูนย์รวมผลงานเว็บไซต์ สุขภาพจิต ธรรมะ ประวัติศาสตร์อัคนิทัต และเกมคลาสสิก โดย โกวิท อัคนิทัต">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://schizophrenia-care-th.github.io/">
+    <meta property="og:title" content="โกวิท อัคนิทัต | Project & Games Hub">
+    <meta property="og:description" content="รวมผลงานเว็บไซต์ สาระความรู้ สุขภาพ และเกมเว็บสไตล์เรโทร">
+    <meta property="og:image" content="https://raw.githubusercontent.com/schizophrenia-care-th/dx-ball-game/main/og-image.png">
+
+    <!-- Tailwind CSS CDN & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+        }
+        .glass-card {
+            background: rgba(18, 24, 38, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.3);
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Hero Section -->
+    <header class="relative py-16 px-4 sm:px-6 lg:px-8 text-center overflow-hidden border-b border-slate-800/80">
+        <div class="absolute inset-0 bg-gradient-to-tr from-indigo-900/20 via-purple-900/10 to-pink-900/20 pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="inline-block p-1 px-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium mb-4">
+                🚀 Web Apps & Classic Retro Games
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 mb-4 tracking-tight">
+                โกวิท อัคนิทัต
+            </h1>
+            <p class="text-slate-400 text-base sm:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                ศูนย์รวมผลงานเว็บไซต์พัฒนาชุมชน สุขภาพจิต ประวัติศาสตร์อัคนิทัต ธรรมะ และเกมคลาสสิกเล่นฟรีบนเว็บ
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- Controls: Filters & Search -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-2 w-full md:w-auto" id="filterContainer">
+                <button onclick="setFilter('all')" id="btn-all" class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                    ทั้งหมด (<span id="count-all">0</span>)
+                </button>
+                <button onclick="setFilter('web')" id="btn-web" class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-slate-800/80 text-slate-300 hover:bg-slate-700">
+                    🌐 เว็บไซต์ (<span id="count-web">0</span>)
+                </button>
+                <button onclick="setFilter('game')" id="btn-game" class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-slate-800/80 text-slate-300 hover:bg-slate-700">
+                    🎮 เกมส์ (<span id="count-game">0</span>)
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="render()" placeholder="ค้นหาผลงาน..." class="w-full pl-11 pr-4 py-2.5 bg-slate-800/90 border border-slate-700/80 rounded-xl text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-8 text-center text-slate-500 text-sm">
+        <p>© โกวิท อัคนิทัต — รวมผลงานโปรเจกต์พัฒนาด้วย HTML5 & JavaScript</p>
+    </footer>
+
+    <script>
+        const projects = [
+            // --- เว็บไซต์ ---
+            {
+                title: "Schizophrenia Care TH",
+                cat: "web",
+                tag: "🧠 สุขภาพจิต",
+                desc: "ศูนย์รวมข้อมูล การดูแล และความรู้ความเข้าใจเกี่ยวกับโรคจิตเภทสำหรับผู้ป่วยและครอบครัว",
+                url: "https://schizophrenia-care-th.github.io/schizophrenia-care-th",
+                icon: "fa-brain",
+                gradient: "from-blue-600 to-indigo-600"
+            },
+            {
+                title: "ธรรมะธรรมดา",
+                cat: "web",
+                tag: "📜 ธรรมะ & ข้อคิด",
+                desc: "ข้อคิดธรรมะนำหลักคำสอนมาประยุกต์ใช้ในชีวิตประจำวันอย่างเรียบง่าย เข้าถึงได้ทุกคน",
+                url: "https://schizophrenia-care-th.github.io/ordinary-dhamma",
+                icon: "fa-dharmachakra",
+                gradient: "from-amber-500 to-orange-600"
+            },
+            {
+                title: "PPPD Thailand",
+                cat: "web",
+                tag: "🩺 สุขภาพ",
+                desc: "คู่มือความรู้ แนวทางการฟื้นฟู และการรับมือกับภาวะเวียนศีรษะเรื้อรัง PPPD",
+                url: "https://schizophrenia-care-th.github.io/pppd-thailand",
+                icon: "fa-notes-medical",
+                gradient: "from-teal-500 to-emerald-600"
+            },
+            {
+                title: "ประวัติศาสตร์อัคนิทัต",
+                cat: "web",
+                tag: "🏛️ ประวัติศาสตร์",
+                desc: "เรื่องราว บันทึกทางประวัติศาสตร์ และการรวบรวมข้อมูลสายตระกูลอัคนิทัต",
+                url: "https://schizophrenia-care-th.github.io/akhanitat-history",
+                icon: "fa-landmark",
+                gradient: "from-purple-600 to-pink-600"
+            },
+            {
+                title: "คู่มือเลิกสารเสพติด",
+                cat: "web",
+                tag: "🛡️ ฟื้นฟูสุขภาพ",
+                desc: "แนวทาง ขั้นตอน และกำลังใจในการเลิกสารเสพติดเพื่อการฟื้นฟูสุขภาพอย่างยั่งยืน",
+                url: "https://schizophrenia-care-th.github.io/quit-substance-guide",
+                icon: "fa-heart-pulse",
+                gradient: "from-red-500 to-rose-600"
+            },
+            {
+                title: "Mindcare Space",
+                cat: "web",
+                tag: "🌱 สุขภาพจิต",
+                desc: "พื้นที่ดูแลใจ พักผ่อนความคิด และเครื่องมือส่งเสริมสุขภาวะทางจิตวิทยา",
+                url: "https://schizophrenia-care-th.github.io/mindcare-space",
+                icon: "fa-spa",
+                gradient: "from-cyan-500 to-blue-600"
+            },
+            {
+                title: "คู่มือสวนมะละกอ",
+                cat: "web",
+                tag: "🌿 การเกษตร",
+                desc: "เทคนิคการปลูก การดูแลรักษา และการบริหารจัดการสวนมะละกออย่างมืออาชีพ",
+                url: "https://schizophrenia-care-th.github.io/papaya-garden-guide",
+                icon: "fa-seedling",
+                gradient: "from-green-500 to-emerald-600"
+            },
+
+            // --- เกมส์ ---
+            {
+                title: "DX-Ball Game",
+                cat: "game",
+                tag: "🎮 อาเขตคลาสสิก",
+                desc: "เกมเด้งลูกบอลทำลายอิฐสุดมันส์ พร้อมพาวเวอร์อัพ บอลไฟ เลเซอร์ และระบบเสียง",
+                url: "https://schizophrenia-care-th.github.io/dx-ball-game",
+                icon: "fa-baseball",
+                gradient: "from-yellow-500 to-red-600"
+            },
+            {
+                title: "Retro Mobile Snake",
+                cat: "game",
+                tag: "📱 เกมงูเรโทร",
+                desc: "เกมงูย้อนยุคสไตล์มือถือปุ่มกด ย้อนวันวานความสนุกแบบคลาสสิก",
+                url: "https://schizophrenia-care-th.github.io/retro-mobile-snake",
+                icon: "fa-staff-snake",
+                gradient: "from-emerald-500 to-teal-600"
+            },
+            {
+                title: "Classic Tetris Game",
+                cat: "game",
+                tag: "🧩 ตัวต่อเททริส",
+                desc: "เกมตัวต่อเรียงบล็อกระดับตำนาน จัดเรียงบล็อกทำลายแถวและทำคะแนนสูงสุด",
+                url: "https://schizophrenia-care-th.github.io/classic-tetris-game",
+                icon: "fa-cubes",
+                gradient: "from-blue-500 to-purple-600"
+            },
+            {
+                title: "8-Bit Space Shooter",
+                cat: "game",
+                tag: "🚀 ยิงยานอวกาศ",
+                desc: "เกมตะลุยอวกาศสไตล์ 8-Bit ยิงยานศัตรู หลบกระสุน และทำลายบอส",
+                url: "https://schizophrenia-care-th.github.io/8bit-space-shooter",
+                icon: "fa-rocket",
+                gradient: "from-indigo-500 to-violet-600"
+            },
+            {
+                title: "Thai Mythical Tamagotchi",
+                cat: "game",
+                tag: "🐣 เลี้ยงสัตว์ตำนานไทย",
+                desc: "เกมสัตว์เลี้ยงเสมือนจริง ผสมผสานวรรณคดีและสัตว์ในตำนานไทยสุดน่ารัก",
+                url: "https://schizophrenia-care-th.github.io/thai-mythical-tamagotchi",
+                icon: "fa-egg",
+                gradient: "from-pink-500 to-rose-600"
+            },
+            {
+                title: "Retro Tank Game",
+                cat: "game",
+                tag: "🪖 ประจัญบานรถถัง",
+                desc: "เกมต่อสู้รถถังเรโทร ป้องกันฐานทัพและทำลายค่ายรถถังฝั่งตรงข้าม",
+                url: "https://schizophrenia-care-th.github.io/retro-tank-game",
+                icon: "fa-shield-halved",
+                gradient: "from-slate-600 to-zinc-700"
+            }
+        ];
+
+        let activeFilter = 'all';
+
+        function updateCounts() {
+            document.getElementById('count-all').innerText = projects.length;
+            document.getElementById('count-web').innerText = projects.filter(p => p.cat === 'web').length;
+            document.getElementById('count-game').innerText = projects.filter(p => p.cat === 'game').length;
+        }
+
+        function setFilter(cat) {
+            activeFilter = cat;
+            ['all', 'web', 'game'].forEach(c => {
+                const btn = document.getElementById(`btn-${c}`);
+                if (c === cat) {
+                    btn.className = "px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+                } else {
+                    btn.className = "px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-slate-800/80 text-slate-300 hover:bg-slate-700";
+                }
+            });
+            render();
+        }
+
+        function render() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            const filtered = projects.filter(p => {
+                const matchesFilter = activeFilter === 'all' || p.cat === activeFilter;
+                const matchesSearch = p.title.toLowerCase().includes(query) || 
+                                      p.desc.toLowerCase().includes(query) || 
+                                      p.tag.toLowerCase().includes(query);
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 text-slate-500">
+                        <i class="fa-solid fa-folder-open text-5xl mb-4 text-slate-600"></i>
+                        <p class="text-base">ไม่พบผลงานที่ค้นหา</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white text-xl shadow-md">
+                                <i class="fa-solid ${p.icon}"></i>
+                            </div>
+                            <span class="text-xs font-medium px-3 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700/50">
+                                ${p.tag}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2">${p.title}</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">${p.desc}</p>
+                    </div>
+                    <a href="${p.url}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600/90 hover:bg-indigo-600 text-white font-medium rounded-xl transition-all shadow-md">
+                        <span>เปิดใช้งานเว็บไซต์</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize
+        updateCounts();
+        render();
+    </script>
+</body>
+</html>
