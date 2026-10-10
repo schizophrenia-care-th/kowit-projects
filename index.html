@@ -227,7 +227,6 @@
                 icon: "fa-seedling",
                 gradient: "from-green-500 to-emerald-600"
             },
-
             // --- เกมส์ ---
             {
                 title: "DX-Ball Game",
@@ -287,4 +286,109 @@
 
         let activeFilter = 'all';
 
-        function updateCounts
+        function updateCounts() {
+            document.getElementById('count-all').innerText = projects.length;
+            document.getElementById('count-web').innerText = projects.filter(p => p.cat === 'web').length;
+            document.getElementById('count-game').innerText = projects.filter(p => p.cat === 'game').length;
+        }
+
+        function setFilter(cat) {
+            activeFilter = cat;
+            ['all', 'web', 'game'].forEach(c => {
+                const btn = document.getElementById(`btn-${c}`);
+                if (c === cat) {
+                    btn.className = "px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+                } else {
+                    btn.className = "px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 bg-slate-800/80 text-slate-300 hover:bg-slate-700";
+                }
+            });
+            render();
+        }
+
+        function render() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            const filtered = projects.filter(p => {
+                const matchesFilter = activeFilter === 'all' || p.cat === activeFilter;
+                const matchesSearch = p.title.toLowerCase().includes(query) || 
+                                      p.desc.toLowerCase().includes(query) || 
+                                      p.tag.toLowerCase().includes(query);
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 text-slate-500">
+                        <i class="fa-solid fa-folder-open text-5xl mb-4 text-slate-600"></i>
+                        <p class="text-base">ไม่พบผลงานที่ค้นหา</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white text-xl shadow-md">
+                                <i class="fa-solid ${p.icon}"></i>
+                            </div>
+                            <span class="text-xs font-medium px-3 py-1 bg-slate-800 text-slate-300 rounded-full border border-slate-700/50">
+                                ${p.tag}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2">${p.title}</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">${p.desc}</p>
+                    </div>
+                    <a href="${p.url}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full py-3 bg-indigo-600/90 hover:bg-indigo-600 text-white font-medium rounded-xl transition-all shadow-md">
+                        <span>เปิดใช้งานเว็บไซต์</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+            document.getElementById('jsonResult').classList.add('hidden');
+        }
+
+        function generateJson(e) {
+            e.preventDefault();
+            const newItem = {
+                title: document.getElementById('newTitle').value,
+                cat: document.getElementById('newCat').value,
+                tag: document.getElementById('newTag').value,
+                desc: document.getElementById('newDesc').value,
+                url: document.getElementById('newUrl').value,
+                icon: "fa-globe",
+                gradient: "from-indigo-500 to-purple-600"
+            };
+
+            const jsonString = JSON.stringify(newItem, null, 4) + ",";
+            document.getElementById('jsonOutput').value = jsonString;
+            document.getElementById('jsonResult').classList.remove('hidden');
+        }
+
+        function copyJsonCode() {
+            const copyText = document.getElementById("jsonOutput");
+            copyText.select();
+            document.execCommand("copy");
+            alert("คัดลอกโค้ดเรียบร้อยแล้ว!");
+        }
+
+        // Initialize
+        updateCounts();
+        render();
+    </script>
+</body>
+</html>
